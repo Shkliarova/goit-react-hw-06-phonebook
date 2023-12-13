@@ -13,7 +13,18 @@ const contactSlice = createSlice({
     reducers: {
         addContact: {
             reducer(state, action) {
-                state.contacts = [...state.contacts, action.payload];
+                const { contacts } = state;
+                const { payload } = action;
+
+                const isDuplicate = contacts.some(contact =>
+                    contact.name.toLowerCase() === payload.name.toLowerCase() &&
+                    contact.number === payload.number
+                );
+                 if(isDuplicate){
+                    alert('This contact is already in your phonebook!');
+                 }else{
+                    state.contacts = [...state.contacts, action.payload];
+                 }
         }, prepare(newContact) {
             return {
               payload: {
